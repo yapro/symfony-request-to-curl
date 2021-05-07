@@ -10,6 +10,8 @@ use Symfony\Component\HttpFoundation\Request as HttpFoundationRequest;
 
 /**
  * Преобразовывает текущий/указанный Symfony http-запрос в curl-команду, которую можно выполнить из консоли.
+ *
+ * Old version https://github.com/yapro/monologext/blob/php5/src/Monolog/Processor/RequestAsCurl.php
  */
 final class SymfonyRequestToCurlConverter
 {
