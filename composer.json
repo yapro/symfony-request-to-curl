@@ -1,0 +1,34 @@
+{
+  "name":        "yapro/symfony-request-to-curl-converter",
+  "description": "Converts the current / specified Symfony http request to a curl command.",
+  "type":        "library",
+  "keywords":    ["php", "function", "library", "helpers", "extensions"],
+  "homepage":    "https://github.com/yapro/helpers",
+  "license":     "MIT",
+
+  "authors": [
+    {
+      "name": "Lebedenko Nikolay",
+      "email": "totx@ya.ru",
+      "homepage": "http://yapro.ru"
+    }
+  ],
+
+  "require": {
+    "php": ">=7.1",
+    "symfony/browser-kit": "*",
+    "symfony/http-foundation": "*"
+  },
+
+  "require-dev": {
+    "phpunit/phpunit": "*"
+  },
+
+  "autoload": {
+    "psr-4": {
+        "YaPro\\Helper\\": "src/"
+    }
+  },
+
+  "target-dir": ""
+}
