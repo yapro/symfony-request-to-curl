@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace YaPro\Helper\Formatter;
+namespace YaPro\SymfonyRequestToCurlCommand;
 
 use Symfony\Component\BrowserKit\Request as BrowserKitRequest;
 use Symfony\Component\HttpFoundation\HeaderBag;
@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request as HttpFoundationRequest;
  *
  * Old version https://github.com/yapro/monologext/blob/php5/src/Monolog/Processor/RequestAsCurl.php
  */
-final class SymfonyRequestToCurlConverter
+final class SymfonyRequestToCurlCommandConverter
 {
     private const MAX_DATA_LENGTH = 4000; // count bites
     private HttpFoundationRequest $request;
@@ -30,7 +30,7 @@ final class SymfonyRequestToCurlConverter
      *
      * @return string
      */
-    public function transform($request = null): string
+    public function convert($request = null): string
     {
         try {
             if ($request === null) {
