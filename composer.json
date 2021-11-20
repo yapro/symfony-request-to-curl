@@ -1,5 +1,5 @@
 {
-  "name":        "yapro/symfony-request-to-curl-converter",
+  "name":        "yapro/symfony-request-to-curl",
   "description": "Converts the current / specified Symfony http request to a curl command.",
   "type":        "library",
   "keywords":    ["php", "function", "library", "helpers", "extensions"],
