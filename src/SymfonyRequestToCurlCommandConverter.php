@@ -12,10 +12,11 @@ use Symfony\Component\HttpFoundation\Request as HttpFoundationRequest;
  * Преобразовывает текущий/указанный Symfony http-запрос в curl-команду, которую можно выполнить из консоли.
  *
  * Old version https://github.com/yapro/monologext/blob/php5/src/Monolog/Processor/RequestAsCurl.php
+ * 
+ * @todo перенести в symfony-http-client-ext
  */
-final class SymfonyRequestToCurlCommandConverter
+class SymfonyRequestToCurlCommandConverter
 {
-    private const MAX_DATA_LENGTH = 4000; // count bites
     private HttpFoundationRequest $request;
 
     public function __construct()
@@ -102,21 +103,7 @@ final class SymfonyRequestToCurlCommandConverter
                 }
             }
 
-            $parts = ['command' => 'curl -i -L --insecure'];
-            $parts['url'] = "'" . $url . "'";
-            $parts['headers'] = $this->getHeaders($headers);
-
-            if (in_array($request->getMethod(), ['GET', 'HEAD'], true) === false) {
-                $parts['method'] = '-X ' . $request->getMethod();
-                if ($content !== '') {
-                    if (strlen($content) > self::MAX_DATA_LENGTH) {
-                        $content = 'Sorry, data length was very big';
-                    }
-                    $parts['data'] = '--data \'' . $content . '\'';
-                }
-            }
-
-            return implode(' ', $parts);
+            return $this->getCurlCommand($request->getMethod(), $url, $content, $headers);
         } catch (\Exception $e) {
             trigger_error(
                 $e->getMessage() . ' ' .
@@ -126,6 +113,23 @@ final class SymfonyRequestToCurlCommandConverter
 
             return '';
         }
+    }
+
+    public function getCurlCommand(string $method, string $url, string $content = '', array $headers = []): string
+    {
+        $parts = ['command' => 'curl -i -L --insecure'];
+        $parts['url'] = "'" . $url . "'";
+        $parts['headers'] = $this->getHeaders($headers);
+
+        if (in_array($method, ['GET', 'HEAD'], true) === false) {
+            $parts['method'] = '-X ' . $method;
+            if ($content !== '') {
+                // https://stackoverflow.com/questions/32122586/curl-escape-single-quote
+                $parts['data'] = '--data \'' . str_replace("'", "'\''", $content) . '\'';
+            }
+        }
+
+        return implode(' ', $parts);
     }
 
     private function getHeadersFromHeaderBug(HeaderBag $headerBug): array
